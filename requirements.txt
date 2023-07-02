@@ -11,7 +11,6 @@ cryptography==39.0.1
 cycler==0.11.0
 Cython==0.29.35
 cytoolz==0.12.0
-dask==2022.7.0
 defusedxml==0.7.1
 dl==0.1.0
 fastparquet==2023.7.0
