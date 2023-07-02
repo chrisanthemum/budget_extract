@@ -31,6 +31,23 @@ hide_st_style = """
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
+hide_table_row_index = """
+            <style>
+            tbody tr td: first-child {display:none}
+            </style>
+            """
+st.markdown(hide_table_row_index, unsafe_allow_html=True)
+
+# table_style = """
+#             <style>
+#             table.dataframe {
+#                 background-color: #e5f1ff; /* Replace with your desired color */
+#             }
+#             </style>
+#             """
+
+# st.markdown(table_style, unsafe_allow_html=True)
+
 ## Initialise export info
 file_format = 'csv'
 
@@ -104,7 +121,8 @@ if uploaded_file is not None:
 
     # Drop the first two rows
     df = df.drop([0, 1])
-
+    
+    df = df.reset_index(drop=True)
     ## Sidebar
 
     # Create data
@@ -155,13 +173,13 @@ if uploaded_file is not None:
 
     start_date = pd.to_datetime(start_date_string).strftime('%Y-%m-%d')
     end_date = pd.to_datetime(end_date_string).strftime('%Y-%m-%d')
-
+    
     df_selection = df.query(
         "Date >= @start_date & Date <= @end_date"
     )
     
     
-    st.dataframe(df_selection)
+    st.write(df_selection)
 
     # Prepare the file name and content
     file_name = f'dataset.{file_format}'
@@ -169,7 +187,8 @@ if uploaded_file is not None:
     st.download_button(label='Download Dataset', data=file_content, file_name=file_name, mime=mime_type)
 
 
-    st.dataframe(df)
+    st.write(df)
+# st.table gives you variable row sizes where text flows over but doesn't include colour in headings. st.write does
 
     # Prepare the file name and content
     file_name_full = f'full_dataset.{file_format}'
